@@ -93,30 +93,30 @@ for project in os.listdir(project_dir):
                     if loop and modeled_call:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                              release_id_prior,
                                                                              'Loop/Modeled Call',
                                                                              max_level, True,
-                                                                             polynomial_difference))
+                                                                             polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
                     elif loop:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase, difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase, difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                               release_id_prior, "Loop",
                                                                               max_level, True,
-                                                                              polynomial_difference))
+                                                                              polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
                     elif modeled_call:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                              release_id_prior,
                                                                              modeled_call_description,
                                                                              max_level, True,
-                                                                             polynomial_difference))
+                                                                             polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
 
@@ -212,30 +212,30 @@ for project in os.listdir(project_dir):
                     if loop and modeled_call:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                              release_id_prior,
                                                                              'Loop/Modeled Call',
                                                                              max_level, False,
-                                                                             polynomial_difference))
+                                                                             polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
                     elif loop:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase, difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase, difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                               release_id_prior, "Loop",
                                                                               max_level, False,
-                                                                              polynomial_difference))
+                                                                              polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
                     elif modeled_call:
                         c.execute(
                             "INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                            "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
+                            "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, hash, procedure_id,
                                                                              release_id_prior,
                                                                              modeled_call_description,
                                                                              max_level, False,
-                                                                             polynomial_difference))
+                                                                             polynomial_difference, 1))
                         conn.commit()
                         add_counter = add_counter + 1
                     else:

@@ -75,30 +75,30 @@ for increase in all_increases:
             # if we find the change, we enter the reason (loop/modeled call/both) and save it in Change table
             if loop and modeled_call:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                            release_id_before_change,
                                                                            'Loop/Modeled Call',
                                                                            max_level, True,
-                                                                           polynomial_difference))
+                                                                           polynomial_difference, 1))
                 conn.commit()
                 add_counter = add_counter + 1
                 found_counter = found_counter + 1
             elif loop:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase, difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase, difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                             release_id_before_change, "Loop",
                                                                             max_level, True,
-                                                                            polynomial_difference))
+                                                                            polynomial_difference, 1))
                 conn.commit()
                 add_counter = add_counter + 1
                 found_counter = found_counter + 1
             elif modeled_call:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                            release_id_before_change,
                                                                            modeled_call_description,
                                                                            max_level, True,
-                                                                           polynomial_difference))
+                                                                           polynomial_difference, 1))
 
                 conn.commit()
                 add_counter = add_counter + 1
@@ -197,29 +197,29 @@ for decrease in all_decreases:
                         max_level = o.get('level')
             if loop and modeled_call:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                            release_id_before_change,
                                                                            'Loop/Modeled Call',
                                                                            max_level, False,
-                                                                           polynomial_difference))
+                                                                           polynomial_difference, 1))
                 conn.commit()
                 add_counter = add_counter + 1
                 found_counter = found_counter + 1
             elif loop:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase, difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase, difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                             release_id_before_change, "Loop",
                                                                             max_level, False,
-                                                                            polynomial_difference))
+                                                                            polynomial_difference, 1))
                 conn.commit()
                 add_counter = add_counter + 1
             elif modeled_call:
                 c.execute("INSERT INTO CHANGE(PROJECT_ID, hash, procedure_id, release_prior, reason, change_level, "
-                          "increase,difference) VALUES(?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
+                          "increase,difference, infer_detected) VALUES(?,?,?,?,?,?,?,?,?)", (project_id, function_hash, procedure_id,
                                                                            release_id_before_change,
                                                                            modeled_call_description,
                                                                            max_level, False,
-                                                                           polynomial_difference))
+                                                                           polynomial_difference, 1))
                 conn.commit()
                 add_counter = add_counter + 1
                 found_counter = found_counter + 1

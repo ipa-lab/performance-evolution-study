@@ -70,6 +70,8 @@ for change in unknown_increases:
     else:
         max_level_dictionary[max_level] = 1
 
+    modeled_call_description = ''
+
     # analyze at max_level
     for o in trace:
         if o.get('level') == max_level:
@@ -82,6 +84,7 @@ for change in unknown_increases:
                     found_counter += 1
                 loop_count += 1
             if 'Modeled call to' in o.get('description'):
+                modeled_call_description = o.get('description')
                 if max_level in polynomial_1_modeled_call_dictionary:
                     polynomial_1_modeled_call_dictionary[max_level] += 1
                     found_counter += 1
@@ -92,10 +95,28 @@ for change in unknown_increases:
 
     if loop_count >= 1 and modeled_call_count >= 1:
         both_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?", (0, 'Loop/Modeled Call',
+                                                                                             max_level, release_prior,
+                                                                                             hash, procedure_id,
+                                                                                             project_id))
     elif loop_count >= 1:
         loop_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?", (0, "Loop",
+                                                                                             max_level, release_prior,
+                                                                                             hash, procedure_id,
+                                                                                             project_id))
     elif modeled_call_count >= 1:
         modeled_call_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?",
+                  (0, modeled_call_description,
+                   max_level, release_prior,
+                   hash, procedure_id,
+                   project_id))
+    # else:
+    # print(function_after)
 
 sorted(polynomial_1_loop_dictionary)
 sorted(polynomial_1_modeled_call_dictionary)
@@ -106,7 +127,6 @@ print(loop_counter)
 print(modeled_call_counter)
 print(both_counter)
 
-# print the level of the change
 for key, value in max_level_dictionary.items():
     print(f"There are {value} changes at level {key}")
 
@@ -150,6 +170,7 @@ for change in unknown_increases:
         continue
 
     trace = json.loads(function_after[0][7])
+
     # check if trace of function after is empty (constant function)
     if len(trace) != 0:
         continue
@@ -159,7 +180,6 @@ for change in unknown_increases:
                hash,
                procedure_id))
     function_prior = c.fetchone()
-
     if function_prior is None:
         continue
     trace = json.loads(function_prior[7])
@@ -178,6 +198,7 @@ for change in unknown_increases:
         max_level_dictionary[max_level] = 1
     loop_count = 0
     modeled_call_count = 0
+    modeled_call_description = ''
 
     # analyze at max_level
     for o in trace:
@@ -191,6 +212,7 @@ for change in unknown_increases:
                     found_counter += 1
                 loop_count += 1
             if 'Modeled call to' in o.get('description'):
+                modeled_call_description = o.get('description')
                 if max_level in polynomial_1_modeled_call_dictionary:
                     polynomial_1_modeled_call_dictionary[max_level] += 1
                     found_counter += 1
@@ -201,10 +223,28 @@ for change in unknown_increases:
 
     if loop_count >= 1 and modeled_call_count >= 1:
         both_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?", (0, 'Loop/Modeled Call',
+                                                                                             max_level, release_prior,
+                                                                                             hash, procedure_id,
+                                                                                             project_id))
     elif loop_count >= 1:
         loop_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?", (0, "Loop",
+                                                                                             max_level, release_prior,
+                                                                                             hash, procedure_id,
+                                                                                             project_id))
     elif modeled_call_count >= 1:
         modeled_call_counter += 1
+        c.execute("UPDATE CHANGE SET infer_detected = ?, reason = ?, change_level = ? WHERE "
+                  "RELEASE_PRIOR = ? AND HASH = ? AND PROCEDURE_ID = ? AND PROJECT_ID = ?",
+                  (0, modeled_call_description,
+                   max_level, release_prior,
+                   hash, procedure_id,
+                   project_id))
+
+conn.commit()
 
 for key, value in max_level_dictionary.items():
     print(f"There are {value} changes at level {key}")
@@ -216,3 +256,4 @@ sorted(loop_model_call_count_at_max_level)
 print(loop_counter)
 print(modeled_call_counter)
 print(both_counter)
+
