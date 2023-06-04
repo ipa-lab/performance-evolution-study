@@ -11,6 +11,10 @@ Note that some of the things that are automatically done in the 100k Analysis pr
 ### Infer
 A working version of [Infer](https://github.com/facebook/infer) is required. Infer can be installed from source or from the [official Infer website](https://fbinfer.com/)
 
+### Packaging
+
+The python package **packaging** is required. We used version 21.3 of packaging, because this version was able to sort versions of releases with the least troubles.
+
 ### Linux
 Since Infer only works on Linux, it is necessary to run the files on a Linux machine.
 
