@@ -29,6 +29,10 @@ The *database* folder contains the database (and the Python files associated wit
 
 As in my automated script, the files are often moved from the project folder to the result folder for example, it is important to check, that the project strucutre is correct and that files are executed in the right directory (relative to the path). Otherwise, errors can easily  occur.
 
+### Database model
+
+![Database model](https://github.com/ZwickPhilippe/performance-evolution-study/assets/74874980/0df88289-d943-4061-8c18-7ec56ec96ea8)
+
 ## Execution of project
 
 ### Generating costs reports
@@ -64,9 +68,12 @@ Then the second file **differential_analysis_from_diffmode.py**, that compares t
 
 For changes whose reason/level is null, the **analyze_unknown_functions.py** can be executed to get the remaining reasons. If the reason was detected by Infer, infer_detected is True in the Change table. Otherwise infer_detected is false.
 
-## Reporting
+## Reporting and Evaluation
 
 Using **change_report.py** or **change_report_100k.py**, information on the Changes are printed. **report_100k.py** excludes the 'Change' table and only focuses on reports based on the database.
 
 With the **function_traze_analyzer.py** file, information on the functions is printed. This information includes statements on the reason/level of performance related code that causes the method to be non-constant.
-  
+
+## Workflow
+
+![Study workflow](https://github.com/ZwickPhilippe/performance-evolution-study/assets/74874980/15e45b1b-0e94-4cc6-8af5-98e6fceb0a9c)  
