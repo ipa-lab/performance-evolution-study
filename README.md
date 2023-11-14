@@ -1,10 +1,9 @@
 # performance-evolution-study
 
-This repository contains the used files for my Bachelor thesis 'An Empirical Study on Static Performance Evolution in Open Source Software'. 
-In my thesis, I used the static analysis tool [Infer](https://github.com/facebook/infer) to analyze open source Java projects found on Github. Therefore, Infer is needed to execute and replicate my work.
+This repository contains the used files the paper 'An Empirical Study on Static Performance Evolution in Open Source Java Projects'. 
+We used the static cost analysis to analyze open source Java projects found on Github. Particularly, we use an implementation of cost analysis in Infer, which is needed to execute and replicate this work.
 
-The scripts are seperated (exactly like my study) in Pilot Study (small-scale analysis) and 100k Analysis (large-scale analysis).
-Note that some of the things that are automatically done in the 100k Analysis project (e.g. creating new directories), need to be done manually in the Pilot Study, as the pilot study only featured 8 projects and therefore did not need automation.
+The scripts are separated in a pilot study (small-scale analysis) and an analysis on 100k projects (large-scale analysis).
 
 ## Setup 
 
@@ -13,46 +12,46 @@ A working version of [Infer](https://github.com/facebook/infer) is required. Inf
 
 ### Packaging
 
-The python package **packaging** is required. We used version 21.3 of packaging, because this version was able to sort versions of releases with the least troubles.
+The python package **packaging** is required. We used version 21.3 because this version was able to sort versions of releases with the least amount of trouble.
 
 ### Linux
 Since Infer only works on Linux, it is necessary to run the files on a Linux machine.
 
 ### Project structure
-In my analysis, I had a *project* folder, a *result* folder, and a *database* folder.
+We have a *project* folder, a *result* folder, and a *database* folder.
 
 The *project* folder is the directory where the git projects are cloned.
 
-The *results* folder contains the generated costs reports of Infer. 
+The *results* folder contains the generated cost reports of Infer. 
 
 The *database* folder contains the database (and the Python files associated with reportings to get results from the database).
 
-As in my automated script, the files are often moved from the project folder to the result folder for example, it is important to check, that the project strucutre is correct and that files are executed in the right directory (relative to the path). Otherwise, errors can easily  occur.
+As in the automated script, the files are often moved from the project folder to the result folder for example, it is important to check, that the project structure is correct and that files are executed in the right directory (relative to the path). Otherwise, errors can easily  occur.
 
 ### Database model
 
-![Database model](https://github.com/ZwickPhilippe/performance-evolution-study/assets/74874980/0df88289-d943-4061-8c18-7ec56ec96ea8)
+![Database model](https://github.com/ipa-lab/performance-evolution-study/assets/74874980/0df88289-d943-4061-8c18-7ec56ec96ea8)
 
-## Execution of project
+## Execution
 
 ### Generating costs reports
 
-At first, the costs reports need to be generated. This is done using the **infer_executor.py** file in the pilot study or the **100k_crawler.py** file for the 100k Analysis. The first file needs to be given a manual list of repository names (the repository should exist in ./projects) and the second one uses the [**JAigantic**](https://mondego.ics.uci.edu/projects/SourcererJBF/#) dataset to run an automated analysis. 
+At first, the cost reports need to be generated. This is done using the **infer_executor.py** file in the pilot study or the **100k_crawler.py** file for the 100k Analysis. The first file needs to be given a manual list of repository names (the repository should exist in ./projects) and the second one uses the [**JAigantic**](https://mondego.ics.uci.edu/projects/SourcererJBF/#) dataset to run an automated analysis. 
 
-Both scripts move the generated costs reports from the projects folder to the results folder.
+Both scripts move the generated cost reports from the projects folder to the results folder.
 
 ### Creating the database
 
-In the next step, the **databasecreation.py** needs to be executed to create the database. It is an SQLLite3 database.
+In the next step, the **databasecreation.py** needs to be executed to create the SQLite3 database.
 
 ### Mapping the costs
 
-The **cost_report_mapper** (Pilot) or **different_costs_mapper_100k.py** need to be executed to map the generated costs reports from the projects/releases into the database.
-This fills the Release and Function table with data
+The **cost_report_mapper** (Pilot) or **different_costs_mapper_100k.py** need to be executed to map the generated cost reports from the projects/releases into the database.
+This fills the Release and Function table with data.
 
 ### Differential Costs Mapping
 
-Infer's differential mode is executed in the ./results folder where the costs reports are located. For two subsequent versions, the differential mode is executed and the folder is named version-prior___version-after.
+Infer's differential mode is executed in the ./results folder where the cost reports are located. For two subsequent versions, the differential mode is executed and the folder is named version-prior___version-after.
 This is done using the **diff_report_executor.py** 
 
 ### Create Change Table
@@ -60,9 +59,9 @@ The **add_change_table_100k.py** needs to be executed to create the change table
 
 ### Fill Change Table with data
  
-After the differential reports are created, the **differential_analysis_from_database.py** is executed, that compares changes detected by the 'Function' table only to Changes of the differential mode. If the change is found, the reasons as well as the maximum level is stored. Otherwise, the reason and level are Null, but the change is still entered.
+After the differential reports are created, the **differential_analysis_from_database.py** is executed, which compares changes detected by the 'Function' table only to Changes in the differential mode. If the change is found, the reasons as well as the maximum level are stored. Otherwise, the reason and level are Null, but the change is still entered.
 
-Then the second file **differential_analysis_from_diffmode.py**, that compares the Changes of Infer's differential mode with the chagnes detectected using the 'Function' table needs to be executed.
+Then the second file **differential_analysis_from_diffmode.py**, which compares the Changes of Infer's differential mode with the changes detected using the 'Function' table needs to be executed.
 
 ### Analyze unknown functions (only 100k Analysis)
 
@@ -76,4 +75,4 @@ With the **function_traze_analyzer.py** file, information on the functions is pr
 
 ## Workflow
 
-![Study workflow](https://github.com/ZwickPhilippe/performance-evolution-study/assets/74874980/15e45b1b-0e94-4cc6-8af5-98e6fceb0a9c)  
+![Study workflow](https://github.com/ipa-lab/performance-evolution-study/assets/74874980/15e45b1b-0e94-4cc6-8af5-98e6fceb0a9c)  
