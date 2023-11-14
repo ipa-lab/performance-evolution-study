@@ -28,10 +28,6 @@ The *database* folder contains the database (and the Python files associated wit
 
 As in the automated script, the files are often moved from the project folder to the result folder for example, it is important to check, that the project structure is correct and that files are executed in the right directory (relative to the path). Otherwise, errors can easily  occur.
 
-### Database model
-
-![Database model](https://github.com/ipa-lab/performance-evolution-study/assets/74874980/0df88289-d943-4061-8c18-7ec56ec96ea8)
-
 ## Execution
 
 ### Generating costs reports
@@ -72,7 +68,3 @@ For changes whose reason/level is null, the **analyze_unknown_functions.py** can
 Using **change_report.py** or **change_report_100k.py**, information on the Changes are printed. **report_100k.py** excludes the 'Change' table and only focuses on reports based on the database.
 
 With the **function_traze_analyzer.py** file, information on the functions is printed. This information includes statements on the reason/level of performance related code that causes the method to be non-constant.
-
-## Workflow
-
-![Study workflow](https://github.com/ipa-lab/performance-evolution-study/assets/74874980/15e45b1b-0e94-4cc6-8af5-98e6fceb0a9c)  
